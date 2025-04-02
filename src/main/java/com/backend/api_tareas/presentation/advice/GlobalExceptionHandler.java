@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Tag(name = "Gestión de Errores", description = "Manejo centralizado de excepciones")
 public class GlobalExceptionHandler {
 
-    // Manejo de validaciones
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -28,15 +27,14 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.toList());
 
-        return new ErrorResponse(
-                "VALIDATION_ERROR",
-                "Error de validación en los datos de entrada",
-                HttpStatus.BAD_REQUEST.value(),
-                errors
-        );
+        return ErrorResponse.builder()
+                .error("VALIDATION_ERROR")
+                .message("Error de validación en los datos de entrada")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .details(errors)
+                .build();
     }
 
-    // Manejo de recurso no encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleResourceNotFound(ResourceNotFoundException ex) {
@@ -47,7 +45,6 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Manejo de conflictos (por ejemplo, al crear un recurso que ya existe)
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
@@ -58,7 +55,6 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Manejo de acceso denegado
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleAccessDenied(AccessDeniedException ex) {
@@ -69,14 +65,14 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Manejo de excepciones generales
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleAllExceptions(Exception ex) {
-        return new ErrorResponse(
-                "INTERNAL_SERVER_ERROR",
-                "Ocurrió un error inesperado",
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
-        );
+        return ErrorResponse.builder()
+                .error("INTERNAL_SERVER_ERROR")
+                .message("Ocurrió un error inesperado")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .details(List.of(ex.getMessage())) // Opcional: incluir el mensaje de error
+                .build();
     }
 }

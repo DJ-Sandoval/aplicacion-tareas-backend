@@ -64,4 +64,4 @@ info:
     version: 2.5
     description: API para gestión de tareas
   env:
-    profile: @spring.profiles.active@
+    profile: ${spring.profiles.active:unknown}

@@ -1,8 +1,6 @@
 package com.backend.api_tareas.presentation.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,23 +8,26 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponse {
     private String error;
     private String message;
     private int status;
-    private LocalDateTime timestamp;
+    @Builder.Default
+    private LocalDateTime timestamp = LocalDateTime.now();
     private List<String> details;
 
-    // Constructores
+    // Constructor simplificado para los casos básicos
     public ErrorResponse(String error, String message, int status) {
-        this.error = error;
-        this.message = message;
-        this.status = status;
-        this.timestamp = LocalDateTime.now();
+        this(error, message, status, null);
     }
 
     public ErrorResponse(String error, String message, int status, List<String> details) {
-        this(error, message, status);
+        this.error = error;
+        this.message = message;
+        this.status = status;
         this.details = details;
+        // timestamp se asigna automáticamente por @Builder.Default
     }
 }
