@@ -11,9 +11,9 @@ spring:
       max-lifetime: 1800000
 
   jpa:
-    show-sql: false # Desactivado en producción
+    show-sql: true # Desactivado en producción
     hibernate:
-      ddl-auto: validate # Mejor que update en producción
+      ddl-auto: update # Mejor que update en producción
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
