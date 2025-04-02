@@ -44,6 +44,7 @@ public class SecurityConfig {
                     http.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll(); // Rutas de Swagger
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers("/actuator/**").permitAll(); // Permitir acceso público a Actuator
+                    http.requestMatchers("/api/tareas/**").permitAll();
 
                     // EndPoints Privados
                     http.requestMatchers(HttpMethod.GET, "/method/get").hasAuthority("READ");
@@ -51,10 +52,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, "/method/delete").hasAuthority("DELETE");
                     http.requestMatchers(HttpMethod.PUT, "/method/put").hasAuthority("UPDATE");
 
-                    http.requestMatchers(HttpMethod.GET, "/api/tareas/**").hasAnyRole("ADMIN", "USER", "DEVELOPER", "INVITED");
-                    http.requestMatchers(HttpMethod.POST, "/api/tareas/**").hasAnyRole("ADMIN", "USER", "DEVELOPER", "INVITED");
-                    http.requestMatchers(HttpMethod.PATCH, "/api/tareas/**").hasAnyRole("ADMIN", "USER", "DEVELOPER", "INVITED");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/tareas/**").hasAnyRole("ADMIN", "USER", "DEVELOPER", "INVITED");
+
                     http.anyRequest().denyAll();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
