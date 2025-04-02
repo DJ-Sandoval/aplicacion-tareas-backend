@@ -32,11 +32,11 @@ import org.springframework.http.HttpHeaders;
         servers = {
                 @Server(
                         description = "Servidor de Desarrollo",
-                        url = "http://localhost:7546"
+                        url = "https://miraculous-tenderness-production.up.railway.app"
                 ),
                 @Server(
                         description = "Servidor de Producción",
-                        url = "http://misitio.com:7546"
+                        url = "https://miraculous-tenderness-production.up.railway.app"
                 )
         },
         security = @SecurityRequirement(

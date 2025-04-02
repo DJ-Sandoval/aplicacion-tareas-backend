@@ -44,15 +44,15 @@ public class SecurityConfig {
                     http.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll(); // Rutas de Swagger
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers("/actuator/**").permitAll(); // Permitir acceso público a Actuator
-                    http.requestMatchers("/api/tareas/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/tareas/listar").permitAll();
+
 
                     // EndPoints Privados
                     http.requestMatchers(HttpMethod.GET, "/method/get").hasAuthority("READ");
                     http.requestMatchers(HttpMethod.POST, "/method/post").hasAuthority("CREATE");
                     http.requestMatchers(HttpMethod.DELETE, "/method/delete").hasAuthority("DELETE");
                     http.requestMatchers(HttpMethod.PUT, "/method/put").hasAuthority("UPDATE");
-
-
+                    http.requestMatchers("/api/tareas/**").authenticated();
                     http.anyRequest().denyAll();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)

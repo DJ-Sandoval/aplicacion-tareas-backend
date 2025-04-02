@@ -28,7 +28,6 @@ public class TareaController {
     }
 
     @GetMapping("/listar")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('DEVELOPER') or hasRole('INVITED')")
     @Operation(summary = "Obtener todas las tareas", description = "Devuelve una lista con todas las tareas registradas.")
     public ResponseEntity<List<TareaDTO>> obtenerTodasLasTareas() {
         List<TareaDTO> tareas = tareaService.obtenerTodasLasTareas();
